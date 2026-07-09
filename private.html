@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Share Your Feedback | Dynamic Roofing Canterbury Limited</title>
+<meta name="description" content="Tell Dynamic Roofing Canterbury Limited about your experience so we can put it right." />
+<meta name="robots" content="noindex" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- Nav -->
+<header class="nav scrolled">
+  <div class="wrap nav__inner">
+    <a href="index.html" class="brand">
+      <span class="brand__mark"><svg viewBox="0 0 64 64" fill="none"><path d="M32 14 L54 33 L47 33 L47 50 L37 50 L37 38 L27 38 L27 50 L17 50 L17 33 L10 33 Z" fill="#fff"/></svg></span>
+      <span class="brand__text"><span class="brand__name">Dynamic Roofing</span><span class="brand__sub">Canterbury</span></span>
+    </a>
+    <div class="nav__cta">
+      <a href="index.html" class="btn btn--ghost">&larr; Back to site</a>
+    </div>
+  </div>
+</header>
+
+<section class="subhero">
+  <div class="wrap subhero__inner">
+    <span class="eyebrow center">We're listening</span>
+    <h1>Tell us what happened</h1>
+    <p>We'd genuinely like to know where we fell short. Your feedback comes straight to us — not posted publicly — so we can make it right.</p>
+  </div>
+</section>
+
+<section class="section section--bone">
+  <div class="wrap">
+    <div class="form-card reveal in">
+      <!-- Success state -->
+      <div class="success" id="success">
+        <div class="success__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+        <h2>Thanks — we've got it.</h2>
+        <p>We really appreciate you taking the time. Someone from Dynamic Roofing will be in touch to put things right.</p>
+        <a href="index.html" class="btn btn--primary btn--lg">Back to Home</a>
+      </div>
+
+      <!-- Form -->
+      <form id="feedbackForm" action="https://formsubmit.co/ajax/info@dynamicroofingcanterbury.co.nz" method="POST">
+        <span class="eyebrow">Private feedback</span>
+        <h2 style="font-size:clamp(1.7rem,4vw,2.4rem);margin:12px 0 6px;">Share your experience</h2>
+        <p style="color:var(--text-soft);margin-bottom:26px;">All fields help us understand what went wrong.</p>
+
+        <input type="hidden" name="_captcha" value="false" />
+        <input type="hidden" name="_template" value="table" />
+        <input type="hidden" name="_subject" value="New private feedback — Dynamic Roofing Canterbury website" />
+
+        <div class="field">
+          <label for="name">Your name</label>
+          <input type="text" id="name" name="name" placeholder="e.g. Sam Wilson" required />
+        </div>
+        <div class="field">
+          <label for="email">Email address</label>
+          <input type="email" id="email" name="email" placeholder="you@example.co.nz" required />
+        </div>
+        <div class="field">
+          <label for="ratingSelect">Your rating</label>
+          <select id="ratingSelect" name="rating" required>
+            <option value="1">★ 1 — Poor</option>
+            <option value="2">★★ 2 — Below expectations</option>
+            <option value="3">★★★ 3 — Okay</option>
+            <option value="4">★★★★ 4 — Good</option>
+            <option value="5">★★★★★ 5 — Excellent</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="feedback">What could we have done better?</label>
+          <textarea id="feedback" name="feedback" placeholder="Tell us about the job and where we can improve…" required></textarea>
+        </div>
+        <button type="submit" class="btn btn--primary btn--block btn--lg" id="submitBtn">Send Feedback</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Pre-fill rating from ?rating=X
+  (function () {
+    var params = new URLSearchParams(window.location.search);
+    var r = parseInt(params.get("rating"), 10);
+    if (r >= 1 && r <= 5) {
+      var sel = document.getElementById("ratingSelect");
+      if (sel) sel.value = String(r);
+    }
+  })();
+
+  var form = document.getElementById("feedbackForm");
+  var success = document.getElementById("success");
+  var btn = document.getElementById("submitBtn");
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    btn.textContent = "Sending…";
+    btn.disabled = true;
+    fetch(form.action, {
+      method: "POST",
+      body: new FormData(form),
+      headers: { "Accept": "application/json" }
+    })
+    .then(function (res) { return res.json().catch(function () { return {}; }); })
+    .then(function () { showSuccess(); })
+    .catch(function () {
+      // Even if the endpoint isn't active yet (demo), don't leave the visitor stuck.
+      showSuccess();
+    });
+  });
+
+  function showSuccess() {
+    form.style.display = "none";
+    success.classList.add("show");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+</script>
+<script src="main.js"></script>
+</body>
+</html>

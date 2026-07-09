@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Leave a Review | Dynamic Roofing Canterbury Limited</title>
+<meta name="description" content="Tell us how we did. Rate your experience with Dynamic Roofing Canterbury Limited." />
+<meta name="robots" content="noindex" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- Nav -->
+<header class="nav scrolled">
+  <div class="wrap nav__inner">
+    <a href="index.html" class="brand">
+      <span class="brand__mark"><svg viewBox="0 0 64 64" fill="none"><path d="M32 14 L54 33 L47 33 L47 50 L37 50 L37 38 L27 38 L27 50 L17 50 L17 33 L10 33 Z" fill="#fff"/></svg></span>
+      <span class="brand__text"><span class="brand__name">Dynamic Roofing</span><span class="brand__sub">Canterbury</span></span>
+    </a>
+    <div class="nav__cta">
+      <a href="index.html" class="btn btn--ghost">&larr; Back to site</a>
+    </div>
+  </div>
+</header>
+
+<section class="subhero">
+  <div class="wrap subhero__inner">
+    <span class="eyebrow center">Your feedback</span>
+    <h1>How did we do?</h1>
+    <p>We're a local Canterbury crew and your honest feedback means a lot. Tap the stars to rate your experience with Dynamic Roofing.</p>
+  </div>
+</section>
+
+<section class="section section--bone">
+  <div class="wrap">
+    <div class="rate-card rate-wrap reveal in">
+      <span class="eyebrow center">Rate your experience</span>
+      <h2 style="font-size:clamp(1.8rem,4vw,2.6rem);margin-top:12px;">Tap a star below</h2>
+      <div class="rate-stars" id="stars">
+        <button class="rate-star" data-v="1" aria-label="1 star"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg></button>
+        <button class="rate-star" data-v="2" aria-label="2 stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg></button>
+        <button class="rate-star" data-v="3" aria-label="3 stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg></button>
+        <button class="rate-star" data-v="4" aria-label="4 stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg></button>
+        <button class="rate-star" data-v="5" aria-label="5 stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg></button>
+      </div>
+      <p class="rate-hint" id="hint">Select from 1 to 5 stars</p>
+    </div>
+  </div>
+</section>
+
+<script>
+  // 4-5 stars -> public Google review; 1-3 stars -> private feedback form.
+  var GOOGLE_REVIEW_URL = "https://g.page/r/PLACEHOLDER/review";
+  var stars = document.querySelectorAll(".rate-star");
+  var hint = document.getElementById("hint");
+  var hints = {
+    1: "We're sorry to hear that — let us make it right.",
+    2: "Thanks for the honesty — tell us what went wrong.",
+    3: "Appreciated — we'd love to know how we can improve.",
+    4: "Great to hear! Redirecting you to Google…",
+    5: "Awesome — thank you! Redirecting you to Google…"
+  };
+  stars.forEach(function (s) {
+    var v = parseInt(s.getAttribute("data-v"), 10);
+    s.addEventListener("mouseenter", function () { paint(v); });
+    s.addEventListener("focus", function () { paint(v); });
+    s.addEventListener("click", function () {
+      hint.textContent = hints[v];
+      if (v >= 4) { setTimeout(function () { window.location.href = GOOGLE_REVIEW_URL; }, 650); }
+      else { setTimeout(function () { window.location.href = "private.html?rating=" + v; }, 500); }
+    });
+  });
+  document.getElementById("stars").addEventListener("mouseleave", function () { paint(0); });
+  function paint(n) {
+    stars.forEach(function (s, i) { s.classList.toggle("hot", i < n); });
+  }
+</script>
+</body>
+</html>
